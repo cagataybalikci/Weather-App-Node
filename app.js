@@ -1,12 +1,16 @@
 const express = require("express")
 const app = express()
 const https = require("https")
+const bodyParser = require("body-parser")
 
-
-
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.get("/",(req,res)=>{
-    const query = "London"
+    res.sendFile(__dirname + "/index.html")
+})
+
+app.post("/",(req,res)=>{
+    const query = req.body.cityName
     const appId = "6309c5c951f00ab641af8f0a80c1397b"
     const unit = "metric"
     const url = "https://api.openweathermap.org/data/2.5/weather?&q="+query+"&appid="+appId+"&units="+unit
@@ -20,12 +24,15 @@ app.get("/",(req,res)=>{
             const icon = weatherData.weather[0].icon
             const imageUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png"
             res.write("<p>The Weather is currently "+ desc + "</p>")
-            res.write("<h1>The Temperature in London is " + temp + " degrees Celcius.</h1>")
+            res.write("<h1>The Temperature in " + query + " is " + temp + " degrees Celcius.</h1>")
             res.write("<img src="+imageUrl+">")
             res.send()
         })
     })
 })
+
+
+
 
 app.listen(3000,()=>{
     console.log("Server is running at port 3000.")
