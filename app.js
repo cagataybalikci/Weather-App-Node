@@ -6,7 +6,10 @@ const https = require("https")
 
 
 app.get("/",(req,res)=>{
-    const url = "https://api.openweathermap.org/data/2.5/weather?&q=London&appid=6309c5c951f00ab641af8f0a80c1397b&units=metric"
+    const query = "London"
+    const appId = "6309c5c951f00ab641af8f0a80c1397b"
+    const unit = "metric"
+    const url = "https://api.openweathermap.org/data/2.5/weather?&q="+query+"&appid="+appId+"&units="+unit
     https.get(url, (response)=>{
         console.log(response.statusCode)
 
